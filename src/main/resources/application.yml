@@ -5,15 +5,21 @@ server:
 spring:
   application:
     name: college-office-info-sys-dev
-
-#  redis配置
-  redis:
-    host: 127.0.0.1
-    port: 6379
-    database: 0
-
   main:
     allow-bean-definition-overriding: true    #设置允许Bean定义覆盖
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://43.139.23.97:3306/db01110?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+      username: root
+      password: Zhao123456.
+
+
+  #  redis配置
+  redis:
+    host: 43.139.23.97
+    port: 6379
+    database: 0
 
 mybatis-plus:
   configuration:
