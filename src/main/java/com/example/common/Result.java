@@ -1,6 +1,8 @@
 package com.example.common;
 
-public class Result {
+import java.io.Serializable;
+
+public class Result implements Serializable {
     private Object data;
     private int code;
     private String msg;
