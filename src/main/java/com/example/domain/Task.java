@@ -1,7 +1,9 @@
 package com.example.domain;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -14,6 +16,7 @@ import java.time.LocalDateTime;
 public class Task {
 
     @ApiModelProperty("任务主键")
+    @TableId(type = IdType.ASSIGN_ID)
     private Long taskId;
 
     @ApiModelProperty("任务标题")
