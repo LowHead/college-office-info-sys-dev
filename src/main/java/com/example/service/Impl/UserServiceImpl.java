@@ -1,6 +1,7 @@
 package com.example.service.Impl;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.common.BusinessException;
 import com.example.common.Result;
 import com.example.common.SystemException;
@@ -11,11 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements UserService {
 
     @Autowired
     UserMapper userMapper;
-
 
     @Override
     public Result login(String username, String password) throws SystemException {
@@ -29,6 +29,10 @@ public class UserServiceImpl implements UserService {
             return new Result(401,null,"账号或密码错误！");
         }
         StpUtil.login(user.getUserId());
+
+        //将登录对象写入Session
+        StpUtil.getSession().set("user",user);
+
         System.out.println("token: "+StpUtil.getLoginId());
         return new Result(200,user,"登陆成功！");
     }

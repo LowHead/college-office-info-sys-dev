@@ -1,5 +1,7 @@
 package com.example.domain;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -7,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -42,14 +45,17 @@ public class User implements Serializable {
     private String userStatus;
 
     @ApiModelProperty("创建时间")
-    private Date userCreateTime;
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime CreateTime;
 
     @ApiModelProperty("修改时间")
-    private Date userUpdateTime;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime UpdateTime;
 
     @ApiModelProperty("修改人主键id")
-    private Long userUpdatePerson;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private Long UpdatePerson;
 
-    @ApiModelProperty("最新登录信息")
-    private Date userLoginTime;
+    @ApiModelProperty("最新登录时间")
+    private LocalDateTime LoginTime;
 }
