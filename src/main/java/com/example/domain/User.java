@@ -1,15 +1,21 @@
 package com.example.domain;
 
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+@ApiModel
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private Long userId;
     private String userUsername;
     private String userPassword;
