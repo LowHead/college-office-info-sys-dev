@@ -1,20 +1,14 @@
 package com.example.domain;
 
-import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.io.Serializable;
-
 @Data
 @ApiModel
-public class Role implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class Role {
 
     @ApiModelProperty("权限主键id")
-    @TableId
     private Long roleId;
 
     @ApiModelProperty("权限，根据user_role进行查询")
