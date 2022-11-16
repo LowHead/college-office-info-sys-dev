@@ -8,6 +8,9 @@ import com.example.common.SystemException;
 import com.example.domain.User;
 import com.example.mapper.UserMapper;
 import com.example.service.UserService;
+import com.example.util.MD5Utils;
+import com.example.util.RegularCheckUtils;
+import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,13 +35,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
 
         //将登录对象写入Session
         StpUtil.getSession().set("user",user);
-
-        System.out.println("token: "+StpUtil.getLoginId());
         return new Result(200,user,"登陆成功！");
     }
 
     @Override
-    public Result register() {
-        return null;
+    public Result register(User user) {
+        if (user == null){
+            return new Result(404,null,"禁止传递空对象！");
+        }
+        if (!RegularCheckUtils.isValidEmail(user.getUserMail())){
+            return new Result(404,null,"邮箱格式错误！");
+        }
+        if (user.getPassword() == null){
+            return new Result(404,null,"密码不可为空！");
+        }
+        user.setPassword(MD5Utils.code(user.getPassword()));
+        userMapper.insert(user);
+        return new Result(200,user,"注册成功！");
     }
 }

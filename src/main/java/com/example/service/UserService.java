@@ -16,7 +16,8 @@ public interface UserService extends IService<User> {
 
     /**
      * 用户注册
+     * User对象
      * @return
      */
-    Result register();
+    Result register(User user);
 }
