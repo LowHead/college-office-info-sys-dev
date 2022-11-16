@@ -20,6 +20,7 @@ public class Swagger2Config {
                 .enable(true)
                 .apiInfo(apiInfo())//调用下面apiInfo()方法
                 .select()
+                //Controller所在路径
                 .apis(RequestHandlerSelectors.basePackage("com.example.controller"))
                 .paths(PathSelectors.any())
                 .build();
