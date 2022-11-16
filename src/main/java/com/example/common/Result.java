@@ -1,56 +1,22 @@
 package com.example.common;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.io.Serializable;
 
+@Data
+@AllArgsConstructor
 public class Result implements Serializable {
     private Object data;
     private int code;
     private String msg;
 
-    public Result() {
+    public static Result success(Object object,String s){
+        return new Result(object,200,s);
     }
 
-    public Result(int code, Object data) {
-        this.data = data;
-        this.code = code;
-    }
-
-    public Result(int code, Object data, String msg) {
-        this.data = data;
-        this.code = code;
-        this.msg = msg;
-    }
-
-    public Object getData() {
-        return data;
-    }
-
-    public void setData(Object data) {
-        this.data = data;
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    @Override
-    public String toString() {
-        return "Result{" +
-                "data=" + data +
-                ", code=" + code +
-                ", msg='" + msg + '\'' +
-                '}';
+    public static Result failure(String s){
+        return new Result(null,500,s);
     }
 }

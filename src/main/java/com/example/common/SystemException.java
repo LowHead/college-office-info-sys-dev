@@ -1,6 +1,6 @@
 package com.example.common;
 
-public class SystemException extends RuntimeException{
+public class SystemException extends Exception{
     private Integer code;
 
     public Integer getCode() {

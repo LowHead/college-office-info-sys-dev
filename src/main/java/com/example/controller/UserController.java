@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.common.Result;
+import com.example.common.SystemException;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,7 @@ public class UserController {
     UserService userService;
 
     @GetMapping ("/login")
-    public Result login(@RequestParam String username, @RequestParam String password){
+    public Result login(@RequestParam String username, @RequestParam String password) throws SystemException {
         return userService.login(username,password);
     }
 }
