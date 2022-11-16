@@ -6,6 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class CollegeOfficeInfoSysDevApplication {
     public static void main(String[] args) {
-        SpringApplication.run(CollegeOfficeInfoSysDevApplication.class, args);
+        SpringApplication.run(CollegeOfficeInfoSysDevApplication.class);
     }
 }
