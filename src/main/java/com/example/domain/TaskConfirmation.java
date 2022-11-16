@@ -1,7 +1,6 @@
 package com.example.domain;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import io.swagger.annotations.Api;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -10,13 +9,13 @@ import java.io.Serializable;
 
 @Data
 @ApiModel
-public class UserRole implements Serializable {
+public class TaskConfirmation implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("权限表主键id")
-    private Long roleId;
+    @ApiModelProperty("任务主键id")
+    private Long taskId;
 
-    @ApiModelProperty("用户表主键id")
+    @ApiModelProperty("用户主键id")
     private Long userId;
 }
