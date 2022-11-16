@@ -50,6 +50,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
             return new Result(404,null,"密码不可为空！");
         }
         user.setPassword(MD5Utils.code(user.getPassword()));
+//        StpUtil.login(user.getUserId());
         userMapper.insert(user);
         return new Result(200,user,"注册成功！");
     }

@@ -27,8 +27,8 @@ public class MyMetaObjecthandler implements MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
         metaObject.setValue("createTime", LocalDateTime.now());
         metaObject.setValue("updateTime", LocalDateTime.now());
-        metaObject.setValue("createUser", StpUtil.getLoginId());
-        metaObject.setValue("UpdatePerson", StpUtil.getLoginId());
+//        metaObject.setValue("createUser", StpUtil.getLoginId());
+//        metaObject.setValue("updatePerson", StpUtil.getLoginId());
     }
 
     @Override

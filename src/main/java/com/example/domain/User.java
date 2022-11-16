@@ -41,16 +41,16 @@ public class User implements Serializable {
 
     @ApiModelProperty("创建时间")
     @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime CreateTime;
+    private LocalDateTime createTime;
 
     @ApiModelProperty("修改时间")
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime UpdateTime;
+    private LocalDateTime updateTime;
 
     @ApiModelProperty("修改人主键id")
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Long UpdatePerson;
+    private Long updatePerson;
 
     @ApiModelProperty("最新登录时间")
-    private LocalDateTime LoginTime;
+    private LocalDateTime loginTime;
 }
