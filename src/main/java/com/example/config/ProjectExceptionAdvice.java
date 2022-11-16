@@ -16,19 +16,19 @@ public class ProjectExceptionAdvice {
         //发送消息给运维
         //发送消息给开发人员
         System.out.println(e.getMessage());
-        return new Result(null,e.getCode(),e.getMessage());
+        return new Result(e.getCode(),null,e.getMessage());
     }
 
     @ExceptionHandler(BusinessException.class)
     public Result doBusinessException(BusinessException e){
         System.out.println(e.getMessage());
-        return new Result(null,e.getCode(),e.getMessage());
+        return new Result(e.getCode(),null,e.getMessage());
     }
 
     //处理其他异常
     @ExceptionHandler(Exception.class)
     public Result doException(Exception e){
         System.out.println(e.getMessage());
-        return new Result(null,401,e.getMessage());
+        return new Result(401,null,e.getMessage());
     }
 }

@@ -1,6 +1,6 @@
 package com.example.common;
 
-public class BusinessException extends RuntimeException{
+public class BusinessException extends RuntimeException {
     private Integer code;
 
     public Integer getCode() {

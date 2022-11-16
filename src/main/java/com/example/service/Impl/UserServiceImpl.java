@@ -21,16 +21,16 @@ public class UserServiceImpl implements UserService {
     public Result login(String username, String password) throws SystemException {
         User user = userMapper.selectOne(new QueryWrapper<User>().eq("username",username));
         if (user == null){
-            return new Result(user,401,"账户不存在！");
+            return new Result(401, null,"账户不存在！");
         }
         user = userMapper.selectOne(new QueryWrapper<User>().eq("username",username)
                 .eq("password",password));
         if (user == null){
-            return new Result(user,401,"账号或密码错误！");
+            return new Result(401,null,"账号或密码错误！");
         }
         StpUtil.login(user.getUserId());
         System.out.println("token: "+StpUtil.getLoginId());
-        return new Result(user,200,"登陆成功！");
+        return new Result(200,user,"登陆成功！");
     }
 
     @Override
