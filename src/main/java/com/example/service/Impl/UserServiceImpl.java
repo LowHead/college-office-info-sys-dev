@@ -42,16 +42,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
     public Result register(User user) {
         User s = userMapper.selectOne(new QueryWrapper<User>().eq("username",user.getUsername()));
         if (user == null){
-            return new Result(404,null,"禁止传递空对象！");
+            return new Result(500,null,"禁止传递空对象！");
         }
         if (s != null){
-            return new Result(404,null,"用户名已存在！");
+            return new Result(500,null,"用户名已存在！");
         }
         if (!RegularCheckUtils.isValidEmail(user.getUserMail())){
-            return new Result(404,null,"邮箱格式错误！");
+            return new Result(500,null,"邮箱格式错误！");
         }
         if (user.getPassword() == null){
-            return new Result(404,null,"密码不可为空！");
+            return new Result(500,null,"密码不可为空！");
         }
         user.setPassword(MD5Utils.code(user.getPassword()));
         userMapper.insert(user);
