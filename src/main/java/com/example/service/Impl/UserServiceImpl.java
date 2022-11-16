@@ -5,7 +5,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.common.BusinessException;
 import com.example.common.Result;
 import com.example.common.SystemException;
+import com.example.domain.Role;
 import com.example.domain.User;
+import com.example.domain.UserRole;
+import com.example.mapper.RoleMapper;
 import com.example.mapper.UserMapper;
 import com.example.service.UserService;
 import com.example.util.CodeUtils;
@@ -21,6 +24,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    RoleMapper roleMapper;
+
+
+    /**
+     * 用户登录实现
+     * @param username  账号
+     * @param password  密码
+     * @return
+     * @throws SystemException
+     */
     @Override
     public Result login(String username, String password) throws SystemException {
         User user = userMapper.selectOne(new QueryWrapper<User>().eq("username",username));
@@ -39,6 +53,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         return new Result(CodeUtils.success,user,"登陆成功！");
     }
 
+    /**
+     * 用户注册实现
+     * @param user
+     * @return
+     */
     @Override
     public Result register(User user) {
         User s = userMapper.selectOne(new QueryWrapper<User>().eq("username",user.getUsername()));
@@ -56,6 +75,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         }
         user.setPassword(MD5Utils.code(user.getPassword()));
         userMapper.insert(user);
+        if (user.getUserPosition().equals("专业负责人")){
+            UserRole userRole = new UserRole();
+            userRole.setUserId(user.getUserId());
+            userRole.setRoleId(2L);
+            roleMapper.insert(userRole);
+        }else {
+            UserRole userRole = new UserRole();
+            userRole.setUserId(user.getUserId());
+            userRole.setRoleId(3L);
+            roleMapper.insert(userRole);
+        }
         return new Result(CodeUtils.success,user,"注册成功！");
     }
 }
