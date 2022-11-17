@@ -20,4 +20,12 @@ public interface UserService extends IService<User> {
      * @return
      */
     Result register(User user);
+
+
+    /**
+     * 用户修改信息
+     * @param user
+     * @return
+     */
+    Result update_user(User user);
 }
