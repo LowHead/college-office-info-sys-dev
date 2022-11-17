@@ -51,6 +51,7 @@ public class UserController {
     }
 
     @PutMapping("/update")
+    @ApiOperation("用户修改信息接口")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "User", value = "JSON传值（User对象）", required = true),
     })
