@@ -41,6 +41,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         if (user == null){
             return new Result(CodeUtils.failure, null,"账户不存在！");
         }
+
+//        //MD5加密 后面需要去掉，让前端进行对密码加密,保证密码安全性
+//        password = MD5Utils.code(password);
+
         user = userMapper.selectOne(new QueryWrapper<User>().eq("username",username)
                 .eq("password",password));
         if (user == null){
