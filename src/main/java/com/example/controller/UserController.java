@@ -31,8 +31,13 @@ public class UserController {
      * @param user
      * @return
      */
-    @PutMapping("/register")
+    @PostMapping("/register")
     public Result register(@RequestBody User user){
         return userService.register(user);
+    }
+
+    @PutMapping("/update")
+    public Result update_user(@RequestBody User user){
+        return userService.update_user(user);
     }
 }

@@ -88,4 +88,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         }
         return new Result(CodeUtils.success,user,"注册成功！");
     }
+
+    /**
+     * 用户修改信息实现
+     * @param user
+     * @return
+     */
+    @Override
+    public Result update_user(User user) {
+        if ( user == null){
+            return new Result(CodeUtils.failure,null,"禁止传递空对象！");
+        }
+        userMapper.updateById(user);
+        StpUtil.getSession().set("user",user);
+        return new Result(CodeUtils.success,null,"修改成功！");
+    }
 }
