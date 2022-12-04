@@ -28,4 +28,10 @@ public interface UserService extends IService<User> {
      * @return
      */
     Result update_user(User user);
+
+    /**
+     * 退出登录，清除网页缓存
+     * @return
+     */
+    Result logout();
 }
