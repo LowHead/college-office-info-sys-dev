@@ -1,5 +1,7 @@
 package com.example.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -13,6 +15,7 @@ public class Role implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("权限主键id")
+    @TableId(type = IdType.ASSIGN_ID)
     private Long roleId;
 
     @ApiModelProperty("权限，根据user_role进行查询")

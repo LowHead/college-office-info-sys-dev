@@ -28,10 +28,10 @@ public class Url implements Serializable {
     private String filename;
 
     @ApiModelProperty("上传人id主键")
-    private String userId;
+    private Long userId;
 
     @ApiModelProperty("上传时间")
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime uploadTime;
+//    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
 
 }
