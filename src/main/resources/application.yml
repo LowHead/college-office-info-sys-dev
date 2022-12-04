@@ -69,3 +69,10 @@ sa-token:
   is-share: true
   token-style: uuid
   is-log: false
+
+# minio 参数配置
+minio:
+  url: http://120.79.54.207:9000
+  bucketName: college-office-info-sys #存储桶名称
+  accessKey: euTjRjDRRiJLjqzW
+  secretKey: i0U0lqq82alBdYdFVnhUf6tSVfLfLkXA
