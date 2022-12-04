@@ -43,5 +43,12 @@ public interface UserService extends IService<User> {
      * 根据id来查询数据
      * @return
      */
-    List<User> getUserById(List<Long> Ids);
+    List<User> getUserByIds(List<Long> Ids);
+
+    /**
+     * 根据用户id查询用户数据
+     * @param id 用户主键id
+     * @return 用户数据
+     */
+    User getUserById(Long id);
 }

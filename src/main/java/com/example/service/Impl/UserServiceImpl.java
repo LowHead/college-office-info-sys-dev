@@ -105,6 +105,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         return new Result(CodeUtils.success,null,"登出成功！");
     }
 
+    @Override
+    public User getUserById(Long id) {
+        return getById(id);
+    }
+
 
     /**
      * 根据用户Id集合查询用户列表
@@ -112,7 +117,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
      * @return
      */
     @Override
-    public List<User> getUserById(List<Long> Ids) {
+    public List<User> getUserByIds(List<Long> Ids) {
         List<User> users = listByIds(Ids);
         return users;
     }

@@ -15,15 +15,20 @@ public class TaskUserServiceImpl extends ServiceImpl<TaskUserMapper, TaskUser> i
 
     @Override
     public List<TaskUser> selectTaskFinish(Long taskIds) {
-        return getUsers(taskIds, 1);
+        return getTaskUsers(taskIds, 1);
     }
 
     @Override
     public List<TaskUser> selectTaskNotFinish(Long taskIds) {
-        return getUsers(taskIds, 0);
+        return getTaskUsers(taskIds, 0);
     }
 
-    private List<TaskUser> getUsers(Long taskIds, Integer state) {
+    @Override
+    public boolean saveTaskUser(TaskUser taskUser) {
+        return save(taskUser);
+    }
+
+    private List<TaskUser> getTaskUsers(Long taskIds, Integer state) {
         LambdaQueryWrapper<TaskUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(taskIds != null, TaskUser::getTaskId, taskIds);
         lambdaQueryWrapper.eq(taskIds != null, TaskUser::getState, state);
