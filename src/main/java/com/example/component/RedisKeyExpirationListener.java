@@ -1,5 +1,6 @@
 package com.example.component;
 
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -15,7 +16,7 @@ import java.util.Set;
 
 @Slf4j
 @Component
-public class RedisKeyExpirationListener extends KeyExpirationEventMessageListener {
+public class RedisKeyExpirationListener  extends KeyExpirationEventMessageListener {
 
 
     @Autowired

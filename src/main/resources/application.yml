@@ -13,7 +13,7 @@ spring:
       username: root
       password: Zhao123456.
   mvc:
-    pathmatch:
+    path match:
       matching-strategy: ANT_PATH_MATCHER
   mail:
     port: 465
@@ -45,6 +45,7 @@ spring:
         max-wait: -1
         min-idle: 0
     database: 0
+    password: Zhao123456.
 
 mybatis-plus:
   configuration:
