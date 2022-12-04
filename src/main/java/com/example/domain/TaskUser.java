@@ -24,5 +24,4 @@ public class TaskUser implements Serializable {
 
     @ApiModelProperty("任务提交时间")
     private LocalDateTime taskCommitTime;
-
 }

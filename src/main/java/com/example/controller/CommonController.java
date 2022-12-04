@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import com.example.common.BusinessException;
 import com.example.common.Result;
 import com.example.domain.Url;
@@ -39,6 +40,7 @@ public class CommonController {
      * @return
      */
     @PostMapping("/upload")
+    @SaCheckLogin
     public Result upload(MultipartFile file){
         log.info("file: {}",file);
 
@@ -90,6 +92,7 @@ public class CommonController {
      * @param response
      */
     @GetMapping("/download")
+    @SaCheckLogin
     public Result download(Long url_id, HttpServletResponse response){
 
         Url url = urlService.getById(url_id);

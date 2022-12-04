@@ -1,6 +1,5 @@
 package com.example.controller;
 
-import cn.dev33.satoken.annotation.SaCheckLogin;
 import com.example.common.Result;
 import com.example.common.SystemException;
 import com.example.domain.User;
