@@ -86,7 +86,7 @@ public class CommonController {
             e.printStackTrace();
         }
 
-        return Result.success(null,"success");
+        return Result.success(fileName,"success");
     }
 
     /**
