@@ -1,6 +1,5 @@
 package com.example.service.Impl;
 
-import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -19,7 +18,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static com.example.util.RedisUtils.PUBLISH_TASK_KEY;
+import static com.example.util.RedisConstant.PUBLISH_TASK_KEY;
 
 @Service
 public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements TaskService, RedisKeyExpirationJudgeHandle {
