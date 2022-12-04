@@ -13,13 +13,39 @@ spring:
       username: root
       password: Zhao123456.
   mvc:
-    pathmatch:
+    path match:
       matching-strategy: ANT_PATH_MATCHER
+  mail:
+    port: 465
+    host: smtp.qq.com
+    protocol: smtp
+    username: 2021289671@qq.com
+    password: aqpyeoxclbobbjaf
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+          socketFactory:
+            port: 465
+            class: javax.net.ssl.SSLSocketFactory
+          auth: true
+          starttls:
+            enable: true
+            required: true
 
   redis:
     host: 43.139.23.97
     port: 6379
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1
+        min-idle: 0
     database: 0
+    password: Zhao123456.
 
   servlet:
     multipart:

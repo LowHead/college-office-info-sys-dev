@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
-@Api("用户服务")
+@Api(tags = "用户接口")
 public class UserController {
 
     @Autowired
@@ -43,19 +43,28 @@ public class UserController {
      */
     @PostMapping("/register")
     @ApiOperation("用户注册接口")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "User", value = "JSON传值（User对象）", required = true),
-    })
     public Result register(@RequestBody User user){
         return userService.register(user);
     }
 
+    /**
+     * 用户修改信息接口
+     * @param user
+     * @return
+     */
     @PutMapping("/update")
     @ApiOperation("用户修改信息接口")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "User", value = "JSON传值（User对象）", required = true),
-    })
     public Result update_user(@RequestBody User user){
         return userService.update_user(user);
+    }
+
+
+    /**
+     * 用户登出接口
+     * @return
+     */
+    @GetMapping("/logout")
+    public Result logout(){
+        return userService.logout();
     }
 }

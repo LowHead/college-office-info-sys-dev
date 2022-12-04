@@ -1,13 +1,12 @@
 package com.example.controller;
 
-import com.baomidou.mybatisplus.extension.api.R;
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import com.example.common.BusinessException;
 import com.example.common.Result;
 import com.example.domain.Url;
 import com.example.service.UrlService;
-import com.example.util.CodeUtils;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.buf.Utf8Encoder;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,12 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import sun.nio.cs.ISO_8859_2;
-
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -31,6 +26,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/common")
 @Slf4j
+@Api(tags = "上传下载接口")
 public class CommonController {
 
     @Autowired
@@ -44,6 +40,7 @@ public class CommonController {
      * @return
      */
     @PostMapping("/upload")
+    @SaCheckLogin
     public Result upload(MultipartFile file){
         log.info("file: {}",file);
 
@@ -95,6 +92,7 @@ public class CommonController {
      * @param response
      */
     @GetMapping("/download")
+    @SaCheckLogin
     public Result download(Long url_id, HttpServletResponse response){
 
         Url url = urlService.getById(url_id);
