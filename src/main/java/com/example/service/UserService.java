@@ -5,6 +5,7 @@ import com.example.common.SystemException;
 import com.example.domain.User;
 
 public interface UserService extends IService<User> {
+
     /**
      * 用户登录
      * @param username  账号

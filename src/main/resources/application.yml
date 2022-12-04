@@ -49,12 +49,11 @@ spring:
 
   servlet:
     multipart:
-      max-file-size: 10MB  #单次上传文件最大不超过10MB
-      max-request-size: 100MB  #文件总上传大小不超过100MB
+      max-file-size: 10MB
+      max-request-size: 100MB
 
 mybatis-plus:
   configuration:
-    #在映射实体或者属性时，将数据库中表名和字段名中的下划线去掉，按照驼峰命名法映射
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
