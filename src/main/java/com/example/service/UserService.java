@@ -4,6 +4,8 @@ import com.example.common.Result;
 import com.example.common.SystemException;
 import com.example.domain.User;
 
+import java.util.List;
+
 public interface UserService extends IService<User> {
 
     /**
@@ -29,4 +31,17 @@ public interface UserService extends IService<User> {
      * @return
      */
     Result update_user(User user);
+
+    /**
+     * 退出登录，清除网页缓存
+     * @return
+     */
+    Result logout();
+
+
+    /**
+     * 根据id来查询数据
+     * @return
+     */
+    List<User> getUserById(List<Long> Ids);
 }

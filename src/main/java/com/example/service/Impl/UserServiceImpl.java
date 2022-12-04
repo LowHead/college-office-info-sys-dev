@@ -1,32 +1,29 @@
 package com.example.service.Impl;
+import cn.dev33.satoken.stp.StpInterface;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.common.BusinessException;
 import com.example.common.Result;
 import com.example.common.SystemException;
-import com.example.domain.Role;
 import com.example.domain.User;
 import com.example.domain.UserRole;
-import com.example.mapper.RoleMapper;
 import com.example.mapper.UserMapper;
+import com.example.mapper.UserRoleMapper;
 import com.example.service.UserService;
 import com.example.util.CodeUtils;
 import com.example.util.MD5Utils;
 import com.example.util.RegularCheckUtils;
-import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements UserService, StpInterface {
 
     @Autowired
     UserMapper userMapper;
-
-    @Autowired
-    RoleMapper roleMapper;
-
 
     /**
      * 用户登录实现
@@ -79,17 +76,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         }
         user.setPassword(MD5Utils.code(user.getPassword()));
         userMapper.insert(user);
-        if (user.getUserPosition().equals("专业负责人")){
-            UserRole userRole = new UserRole();
-            userRole.setUserId(user.getUserId());
-            userRole.setRoleId(2L);
-            roleMapper.insert(userRole);
-        }else {
-            UserRole userRole = new UserRole();
-            userRole.setUserId(user.getUserId());
-            userRole.setRoleId(3L);
-            roleMapper.insert(userRole);
-        }
         return new Result(CodeUtils.success,user,"注册成功！");
     }
 
@@ -106,5 +92,69 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         userMapper.updateById(user);
         StpUtil.getSession().set("user",user);
         return new Result(CodeUtils.success,null,"修改成功！");
+    }
+
+
+    /**
+     * 登出功能
+     * @return
+     */
+    @Override
+    public Result logout() {
+        StpUtil.logout();
+        return new Result(CodeUtils.success,null,"登出成功！");
+    }
+
+
+    /**
+     * 根据用户Id集合查询用户列表
+     * @param Ids
+     * @return
+     */
+    @Override
+    public List<User> getUserById(List<Long> Ids) {
+        List<User> users = listByIds(Ids);
+        return users;
+    }
+
+    /**
+     * 返回一个账号所拥有的权限码集合
+     */
+    @Override
+    public List<String> getPermissionList(Object loginId, String loginType) {
+        List<String> list = new ArrayList<String>();
+        // 本list仅做模拟，实际项目中要根据具体业务逻辑来查询权限
+        Long id = (Long)loginId;
+        User user = userMapper.selectById(id);
+        if (user == null){
+            list.add("admin.post");
+            list.add("admin.update");
+            list.add("admin.get");
+            list.add("admin.delete");
+            return list;
+        }
+
+        list.add("user.post");
+        list.add("user.update");
+        list.add("user.get");
+        list.add("user.delete");
+        return list;
+    }
+
+    /**
+     * 返回一个账号所拥有的角色标识集合 (权限与角色可分开校验)
+     */
+    @Override
+    public List<String> getRoleList(Object loginId, String loginType) {
+        // 本list仅做模拟，实际项目中要根据具体业务逻辑来查询角色
+        Long id = (Long)loginId;
+        User user = userMapper.selectById(id);
+        List<String> list = new ArrayList<String>();
+
+        if (user == null){
+            list.add("admin");
+        }
+        list.add("user");
+        return list;
     }
 }
