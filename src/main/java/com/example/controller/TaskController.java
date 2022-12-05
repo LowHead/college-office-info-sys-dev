@@ -9,18 +9,17 @@ import com.example.domain.User;
 import com.example.dto.TaskDto;
 import com.example.service.TaskService;
 import com.example.service.TaskUserService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
 @RequestMapping("/task")
+@Api
 public class TaskController {
 
     @Resource
@@ -30,7 +29,7 @@ public class TaskController {
     private TaskUserService taskUserService;
 
 
-    @RequestMapping("/save")
+    @PostMapping("/save")
     public Result save(@RequestBody TaskDto taskDto) {
         Task task = new Task();
         BeanUtils.copyProperties(taskDto,task);
@@ -41,7 +40,7 @@ public class TaskController {
         return Result.success(null, "任务发布成功");
     }
 
-    @RequestMapping("/finish")
+    @GetMapping("/finish")
     public Result finish(@RequestParam("taskId") Long taskId) {
         if (taskId == null) {
             return Result.failure("传入的任务主键为空");
@@ -50,7 +49,7 @@ public class TaskController {
         return Result.success(users,"获取已完成任务用户成功");
     }
 
-    @RequestMapping("/notFinish")
+    @GetMapping("/notFinish")
     public Result notFinish(@RequestParam("taskId") Long taskId) {
         if (taskId == null) {
             return Result.failure("传入的任务主键为空");
@@ -59,7 +58,7 @@ public class TaskController {
         return Result.success(users,"获取已完成任务用户成功");
     }
 
-    @RequestMapping("/repulse")
+    @PutMapping("/repulse")
     public Result repulse(@RequestParam("taskId") List<Long> taskIds) {
         if (taskIds == null) {
             return Result.failure("传入的任务主键为空");

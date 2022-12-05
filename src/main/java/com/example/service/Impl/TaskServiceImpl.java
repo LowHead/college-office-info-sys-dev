@@ -1,6 +1,9 @@
 package com.example.service.Impl;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.component.RedisKeyExpirationJudgeHandle;
@@ -15,19 +18,20 @@ import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static com.example.util.MailSenderConstant.SUBJECT;
 import static com.example.util.RedisConstant.PUBLISH_TASK_KEY;
 
 @Service
-public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements TaskService, RedisKeyExpirationJudgeHandle {
+public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements TaskService {
 
     private final LinkedList<Long> taskIds = new LinkedList<>();
 
@@ -43,19 +47,6 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
     @Autowired
     private UserService userService;
 
-
-    @Override
-    @Transactional
-    public boolean setTask(Task task) {
-        taskIds.addFirst(task.getTaskId());
-        save(task);
-        TaskUser taskUser = new TaskUser(task.getTaskId(),StpUtil.getLoginIdAsLong(),0, LocalDateTime.now());
-        taskUserService.saveTaskUser(taskUser);
-        String key = PUBLISH_TASK_KEY + task.getTaskId();
-        long sendTime = LocalDateTimeUtil.between(task.getDeadTime(), task.getCreateTime()).toNanos() * 1000 - 120 * 60;
-        stringRedisTemplate.opsForValue().set(key, StpUtil.getLoginIdAsString(), sendTime, TimeUnit.SECONDS);
-        return false;
-    }
 
     @Override
     @Transactional
@@ -82,22 +73,34 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
 
     @Override
     @Transactional
-    public void handleRedisKeyExpiration(Message message, byte[] pattern) {
-        Long id = taskIds.getLast();
-        String key = PUBLISH_TASK_KEY + id;
-        if (key.equals(message.toString())) {
-            taskIds.removeLast();
-            List<TaskUser> taskUsers = taskUserService.selectTaskNotFinish(id);
-            for (TaskUser taskUser : taskUsers) {
-                User user = userService.getUserById(taskUser.getUserId());
-                Task task = getById(taskUser.getTaskId());
-                String text = user.getUsername() + "你好，您的任务" + task.getTaskTitle() + "将于两小时后到期,请及时进行提交";
-                mailSenderService.sendEmail(user.getUserMail(), SUBJECT, text);
+    public boolean setTask(Task task) {
+        taskIds.addFirst(task.getTaskId());
+        save(task);
+        TaskUser taskUser = new TaskUser(task.getTaskId(),StpUtil.getLoginIdAsLong(),0, LocalDateTime.now());
+        taskUserService.saveTaskUser(taskUser);
+
+        LocalDateTime deadTime = LocalDateTimeUtil.offset(task.getDeadTime(), -2, ChronoUnit.HOURS);
+        String format = LocalDateTimeUtil.format(deadTime, DatePattern.NORM_DATETIME_FORMATTER);
+        Date date = DateUtil.parse(format);
+
+        Timer timer = new Timer();
+        TimerTask sc = new TimerTask() {
+            @Override
+            public void run() {
+                List<TaskUser> taskUsers = taskUserService.selectTaskNotFinish(task.getTaskId());
+                for (TaskUser taskUser : taskUsers) {
+                    User user = userService.getUserById(taskUser.getUserId());
+                    Task task = getById(taskUser.getTaskId());
+                    String text = user.getUsername() + "你好，您的任务" + task.getTaskTitle() + "将于两小时后到期,请及时进行提交";
+                    mailSenderService.sendEmail(user.getUserMail(), SUBJECT, text);
+                }
             }
-        }
+        };
+
+        timer.schedule(sc,date);
+
+        return true;
     }
-
-
 
 
 }

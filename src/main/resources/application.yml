@@ -34,7 +34,6 @@ spring:
           starttls:
             enable: true
             required: true
-
   redis:
     host: 43.139.23.97
     port: 6379
@@ -68,3 +67,9 @@ sa-token:
   is-share: true
   token-style: uuid
   is-log: false
+
+minio:
+  url: http://120.79.54.207:9000
+  bucketName: college-office-info-sys
+  accessKey: euTjRjDRRiJLjqzW
+  secretKey: i0U0lqq82alBdYdFVnhUf6tSVfLfLkXA
