@@ -15,12 +15,19 @@ public class TaskUserServiceImpl extends ServiceImpl<TaskUserMapper, TaskUser> i
 
     @Override
     public List<TaskUser> selectTaskFinish(Long taskIds) {
-        return getTaskUsers(taskIds, 1);
+        LambdaQueryWrapper<TaskUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(taskIds != null, TaskUser::getTaskId, taskIds);
+        lambdaQueryWrapper.eq(taskIds != null, TaskUser::getState, 1);
+        return list(lambdaQueryWrapper);
     }
 
     @Override
     public List<TaskUser> selectTaskNotFinish(Long taskIds) {
-        return getTaskUsers(taskIds, 0);
+        LambdaQueryWrapper<TaskUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(taskIds != null, TaskUser::getTaskId, taskIds);
+        lambdaQueryWrapper.eq(taskIds != null, TaskUser::getState, 0)
+                .or().eq(TaskUser::getState, 2);
+        return list(lambdaQueryWrapper);
     }
 
     @Override
@@ -28,12 +35,6 @@ public class TaskUserServiceImpl extends ServiceImpl<TaskUserMapper, TaskUser> i
         return save(taskUser);
     }
 
-    private List<TaskUser> getTaskUsers(Long taskIds, Integer state) {
-        LambdaQueryWrapper<TaskUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(taskIds != null, TaskUser::getTaskId, taskIds);
-        lambdaQueryWrapper.eq(taskIds != null, TaskUser::getState, state);
-        return list(lambdaQueryWrapper);
-    }
 
 
 }
