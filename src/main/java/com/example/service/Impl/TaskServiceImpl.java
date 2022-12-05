@@ -18,6 +18,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -58,6 +59,29 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
 
     @Override
     @Transactional
+    public List<User> getFinishUser(Long taskId) {
+        List<TaskUser> taskUsers = taskUserService.selectTaskFinish(taskId);
+        List<User> users = new ArrayList<>();
+        for (TaskUser taskUser : taskUsers) {
+            User user = userService.getUserById(taskUser.getUserId());
+            users.add(user);
+        }
+        return users;
+    }
+
+    @Override
+    public List<User> getNotFinishUser(Long taskId) {
+        List<TaskUser> taskUsers = taskUserService.selectTaskNotFinish(taskId);
+        List<User> users = new ArrayList<>();
+        for (TaskUser taskUser : taskUsers) {
+            User user = userService.getUserById(taskUser.getUserId());
+            users.add(user);
+        }
+        return users;
+    }
+
+    @Override
+    @Transactional
     public void handleRedisKeyExpiration(Message message, byte[] pattern) {
         Long id = taskIds.getLast();
         String key = PUBLISH_TASK_KEY + id;
@@ -72,6 +96,8 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
             }
         }
     }
+
+
 
 
 }

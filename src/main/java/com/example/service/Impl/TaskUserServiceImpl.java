@@ -1,6 +1,7 @@
 package com.example.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.domain.TaskUser;
 import com.example.mapper.TaskUserMapper;
@@ -35,6 +36,12 @@ public class TaskUserServiceImpl extends ServiceImpl<TaskUserMapper, TaskUser> i
         return save(taskUser);
     }
 
+    @Override
+    public boolean repulse(List<Long> taskIds) {
+        LambdaUpdateWrapper<TaskUser> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        lambdaUpdateWrapper.in(TaskUser::getTaskId,taskIds).set(TaskUser::getState,2);
+        return update(lambdaUpdateWrapper);
+    }
 
 
 }

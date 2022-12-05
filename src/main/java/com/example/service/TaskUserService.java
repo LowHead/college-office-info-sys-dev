@@ -27,4 +27,12 @@ public interface TaskUserService extends IService<TaskUser> {
      * @return 是否成功
      */
     boolean saveTaskUser(TaskUser taskUser);
+
+
+    /**
+     * 批量打回
+     * @param taskIds 任务主键id
+     * @return 是否成功
+     */
+    boolean repulse(List<Long> taskIds);
 }
