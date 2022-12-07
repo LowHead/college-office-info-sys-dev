@@ -4,7 +4,10 @@ import com.example.common.Result;
 import com.example.common.SystemException;
 import com.example.domain.User;
 
+import java.util.List;
+
 public interface UserService extends IService<User> {
+
     /**
      * 用户登录
      * @param username  账号
@@ -34,4 +37,18 @@ public interface UserService extends IService<User> {
      * @return
      */
     Result logout();
+
+
+    /**
+     * 根据id来查询数据
+     * @return
+     */
+    List<User> getUserByIds(List<Long> Ids);
+
+    /**
+     * 根据用户id查询用户数据
+     * @param id 用户主键id
+     * @return 用户数据
+     */
+    User getUserById(Long id);
 }

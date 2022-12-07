@@ -2,13 +2,17 @@ package com.example.domain;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
 @ApiModel
+@AllArgsConstructor
+@NoArgsConstructor
 public class TaskUser implements Serializable {
 
     private static final long serialVersionUID = 1L;

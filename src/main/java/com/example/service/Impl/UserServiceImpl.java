@@ -25,9 +25,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
     @Autowired
     UserMapper userMapper;
 
-    @Autowired
-    UserRoleMapper userRoleMapper;
-
     /**
      * 用户登录实现
      * @param username  账号
@@ -106,6 +103,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
     public Result logout() {
         StpUtil.logout();
         return new Result(CodeUtils.success,null,"登出成功！");
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        return getById(id);
+    }
+
+
+    /**
+     * 根据用户Id集合查询用户列表
+     * @param Ids
+     * @return
+     */
+    @Override
+    public List<User> getUserByIds(List<Long> Ids) {
+        List<User> users = listByIds(Ids);
+        return users;
     }
 
     /**
