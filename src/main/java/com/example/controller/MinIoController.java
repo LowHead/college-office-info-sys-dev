@@ -23,16 +23,17 @@ public class MinIoController {
     @PostMapping(value = "/upload")
     public Result upload(@RequestParam("file") MultipartFile file, HttpServletResponse response) throws Exception {
         String fileUrl = MinIoUtil.upload(minIoProperties.getBucketName(), file);
-        String url = MinIoUtil.getFileUrl(minIoProperties.getBucketName(), file.getOriginalFilename());
-        return Result.success(url,"文件上传成功，已返回文件下载链接");
-
-//        return MinIoUtil.uploadFile(minIoProperties.getBucketName(),file,response) != null ? Result.success(file.getOriginalFilename(),"上传成功") : Result.failure("上传失败");
+//        String url = MinIoUtil.getFileUrl(minIoProperties.getBucketName(), file.getOriginalFilename());
+        return Result.success(fileUrl,"文件上传成功，已返回文件下载链接");
     }
 
     @ApiOperation(value = "下载文件")
     @GetMapping(value = "/download")
-    public void download(@RequestParam("fileName") String fileName, HttpServletResponse response) {
-        MinIoUtil.download(minIoProperties.getBucketName(), fileName, response);
+    public Result download(@RequestParam("fileName") String fileName, HttpServletResponse response) {
+//        MinIoUtil.download(minIoProperties.getBucketName(), fileName, response);
+
+        String fileUrl = MinIoUtil.getFileUrl(minIoProperties.getBucketName(), fileName);
+        return Result.success(fileUrl,"文件url获取成功");
     }
 
     @ApiOperation(value = "删除文件")
