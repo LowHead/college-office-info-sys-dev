@@ -31,6 +31,5 @@ public class Url implements Serializable {
     private Long userId;
 
     @ApiModelProperty("上传时间")
-//    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 }

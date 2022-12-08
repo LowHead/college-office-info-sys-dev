@@ -34,7 +34,7 @@ public class Task implements Serializable {
     private Integer taskStatus;
 
     @ApiModelProperty("发布类型，通知与公告，0表示通知，1表示公告")
-    private String taskType;
+    private Integer taskType;
 
     @ApiModelProperty("排序，数字小在前")
     private Integer taskSort;

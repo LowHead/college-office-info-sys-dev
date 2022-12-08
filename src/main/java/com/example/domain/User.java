@@ -28,7 +28,7 @@ public class User implements Serializable {
     private String password;
 
     @ApiModelProperty("用户专业类别")
-    private String userMajorCategory;
+    private Long userMajorId;
 
     @ApiModelProperty("用户职位")
     private String userPosition;

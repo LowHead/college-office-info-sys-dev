@@ -19,7 +19,7 @@ spring:
     port: 465
     host: smtp.qq.com
     protocol: smtp
-    username: 2021289671@qq.com
+    username: 2027543671@qq.com
     password: aqpyeoxclbobbjaf
     default-encoding: UTF-8
     properties:

@@ -1,8 +1,10 @@
 package com.example.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.common.Result;
 import com.example.domain.Task;
 import com.example.domain.User;
+import com.example.dto.TaskDto;
 
 import java.util.List;
 
@@ -10,10 +12,25 @@ public interface TaskService extends IService<Task> {
 
     /**
      * 添加一条任务
-     * @param task 任务相关消息
-     * @return 是否成功
+     *
+     * @param taskDto @return 是否成功
+     * @return
      */
-    boolean setTask(Task task);
+    Result addTask(TaskDto taskDto);
+
+    /**
+     * 删除一条任务
+     * @param taskId
+     * @return
+     */
+    Result deleteTask(Long taskId);
+
+    /**
+     * 修改任务
+     * @param taskDto
+     * @return
+     */
+    Result updateTask(TaskDto taskDto);
 
     /**
      * 根据任务id获取已完成任务用户名称
