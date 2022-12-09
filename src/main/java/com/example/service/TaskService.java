@@ -33,6 +33,15 @@ public interface TaskService extends IService<Task> {
     Result updateTask(TaskDto taskDto);
 
     /**
+     * 分页查询所有任务
+     * @param page
+     * @param size
+     * @param name
+     * @return
+     */
+    Result pageTask(int page, int size, String name);
+
+    /**
      * 根据任务id获取已完成任务用户名称
      * @param taskId 任务id
      * @return 用户集合

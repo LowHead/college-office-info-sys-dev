@@ -32,13 +32,18 @@ public class TaskController {
     }
 
     @DeleteMapping("/delete")
-    public Result delete(@RequestParam("taskId") Long taskId){
+    public Result delete(@RequestParam("taskId") Long taskId) {
         return taskService.deleteTask(taskId);
     }
 
     @PutMapping("/update")
-    public Result update(@RequestBody TaskDto taskDto){
+    public Result update(@RequestBody TaskDto taskDto) {
         return taskService.updateTask(taskDto);
+    }
+
+    @GetMapping("/page")
+    public Result page(int page, int size, String name) {
+        return taskService.pageTask(page, size, name);
     }
 
     @GetMapping("/finish")
@@ -47,7 +52,7 @@ public class TaskController {
             return Result.failure("传入的任务主键为空");
         }
         List<User> users = taskService.getFinishUser(taskId);
-        return Result.success(users,"获取已完成任务用户成功");
+        return Result.success(users, "获取已完成任务用户成功");
     }
 
     @GetMapping("/notFinish")
@@ -56,7 +61,7 @@ public class TaskController {
             return Result.failure("传入的任务主键为空");
         }
         List<User> users = taskService.getNotFinishUser(taskId);
-        return Result.success(users,"获取已完成任务用户成功");
+        return Result.success(users, "获取已完成任务用户成功");
     }
 
     @PutMapping("/repulse")
