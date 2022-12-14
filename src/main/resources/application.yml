@@ -54,7 +54,6 @@ spring:
 
 mybatis-plus:
   configuration:
-    #在映射实体或者属性时，将数据库中表名和字段名中的下划线去掉，按照驼峰命名法映射
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
@@ -70,9 +69,8 @@ sa-token:
   token-style: uuid
   is-log: false
 
-# minio 参数配置
 minio:
   url: http://120.79.54.207:9000
-  bucketName: college-office-info-sys #存储桶名称
+  bucketName: college-office-info-sys
   accessKey: euTjRjDRRiJLjqzW
   secretKey: i0U0lqq82alBdYdFVnhUf6tSVfLfLkXA

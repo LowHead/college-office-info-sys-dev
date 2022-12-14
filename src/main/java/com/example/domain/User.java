@@ -51,9 +51,10 @@ public class User implements Serializable {
     private LocalDateTime updateTime;
 
     @ApiModelProperty("修改人主键id")
-    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updatePerson;
 
     @ApiModelProperty("最新登录时间")
     private LocalDateTime loginTime;
+
+
 }
