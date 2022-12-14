@@ -4,7 +4,7 @@ import cn.dev33.satoken.annotation.SaCheckLogin;
 import com.example.common.Result;
 import com.example.domain.Admin;
 import com.example.service.AdminService;
-import io.swagger.annotations.Api;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +23,11 @@ public class AdminController {
      * @return
      */
     @GetMapping("/login")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "username", value = "用户名称", required = true),
+            @ApiImplicitParam(name = "password", value = "用户密码", required = true)
+    })
+    @ApiOperation("登录")
     public Result login(@RequestParam String username,@RequestParam String password){
         return adminService.login(username,password);
     }
@@ -33,6 +38,8 @@ public class AdminController {
      * @return
      */
     @PostMapping("/register")
+    @ApiParam(name = "admin", value = "管理员相关信息", required = true)
+    @ApiOperation("注册")
     public Result register(@RequestBody Admin admin){
         return adminService.register(admin);
     }
@@ -45,6 +52,8 @@ public class AdminController {
      */
     @SaCheckLogin
     @PutMapping("/update")
+    @ApiParam(name = "admin", value = "管理员相关信息", required = true)
+    @ApiOperation("更新个人信息")
     public Result update_admin(@RequestBody Admin admin){
         return adminService.update_admin(admin);
     }
@@ -56,6 +65,7 @@ public class AdminController {
      */
     @SaCheckLogin
     @GetMapping("/logout")
+    @ApiOperation("登出")
     Result logout(){
         return adminService.logout();
     }

@@ -12,6 +12,7 @@ import com.example.dto.TaskDto;
 import com.example.mapper.TaskMapper;
 import com.example.service.*;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,23 +43,28 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
     private TaskUrlService taskUrlService;
 
     @Override
-    @Transactional
     public List<User> getFinishUser(Long taskId) {
-        List<TaskUser> taskUsers = taskUserService.selectTaskFinish(taskId);
-        List<User> users = new ArrayList<>();
-        for (TaskUser taskUser : taskUsers) {
-            User user = userService.getUserById(taskUser.getUserId());
-            users.add(user);
-        }
-        return users;
+        LambdaQueryWrapper<TaskUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(taskId != null, TaskUser::getTaskId, taskId);
+        lambdaQueryWrapper.eq(taskId != null, TaskUser::getState, 1);
+        return getUsers(lambdaQueryWrapper);
     }
 
     @Override
     public List<User> getNotFinishUser(Long taskId) {
-        List<TaskUser> taskUsers = taskUserService.selectTaskNotFinish(taskId);
+        LambdaQueryWrapper<TaskUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(taskId != null, TaskUser::getTaskId, taskId);
+        lambdaQueryWrapper.eq(taskId != null, TaskUser::getState, 0)
+                .or().eq(TaskUser::getState, 2);
+        return getUsers(lambdaQueryWrapper);
+    }
+
+    @NotNull
+    private List<User> getUsers(LambdaQueryWrapper<TaskUser> lambdaQueryWrapper) {
+        List<TaskUser> taskUsers = taskUserService.list(lambdaQueryWrapper);
         List<User> users = new ArrayList<>();
         for (TaskUser taskUser : taskUsers) {
-            User user = userService.getUserById(taskUser.getUserId());
+            User user = userService.getById(taskUser.getUserId());
             users.add(user);
         }
         return users;
