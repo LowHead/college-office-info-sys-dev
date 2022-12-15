@@ -7,7 +7,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.hibernate.validator.constraints.Range;
 
+import javax.validation.constraints.Future;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -31,6 +33,7 @@ public class Task implements Serializable {
     private String taskRank;
 
     @ApiModelProperty("任务状态，0表示任务已过期，1表示任务未过期")
+    @Range(max = 1, min = 0)
     private Integer taskStatus;
 
     @ApiModelProperty("发布类型，通知与公告，0表示通知，1表示公告")
@@ -51,6 +54,7 @@ public class Task implements Serializable {
     private LocalDateTime updateTime;
 
     @ApiModelProperty("截止时间")
+    @Future
     private LocalDateTime deadTime;
 
 }

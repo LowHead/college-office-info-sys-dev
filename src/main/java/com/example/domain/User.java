@@ -4,10 +4,13 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.example.annotation.Gender;
+import com.example.annotation.Position;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.Email;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -31,12 +34,15 @@ public class User implements Serializable {
     private Long userMajorId;
 
     @ApiModelProperty("用户职位")
+    @Position
     private String userPosition;
 
     @ApiModelProperty("邮箱地址")
+    @Email
     private String userMail;
 
     @ApiModelProperty("性别")
+    @Gender
     private String userSex;
 
     @ApiModelProperty("在职状态，0离职，1在职")

@@ -9,14 +9,18 @@ import com.example.service.TaskService;
 import com.example.service.TaskUserService;
 import io.swagger.annotations.*;
 import org.springframework.beans.BeanUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
 @RequestMapping("/task")
 @Api(tags = "任务接口")
+@Validated
 public class TaskController {
 
     @Resource
@@ -61,10 +65,9 @@ public class TaskController {
     @GetMapping("/finish")
     @ApiImplicitParams(@ApiImplicitParam(name = "taskId", value = "任务主键id", required = true))
     @ApiOperation("获取已完成任务用户")
-    public Result finish(@RequestParam("taskId") Long taskId) {
-        if (taskId == null) {
-            return Result.failure("传入的任务主键为空");
-        }
+    public Result finish(
+            @RequestParam("taskId") @NotNull(message = "传入的任务主键不能为空") Long taskId
+    ) {
         List<User> users = taskService.getFinishUser(taskId);
         return Result.success(users, "获取已完成任务用户成功");
     }
@@ -72,10 +75,9 @@ public class TaskController {
     @GetMapping("/notFinish")
     @ApiImplicitParams(@ApiImplicitParam(name = "taskId", value = "任务主键id", required = true))
     @ApiOperation("获取未完成任务用户")
-    public Result notFinish(@RequestParam("taskId") Long taskId) {
-        if (taskId == null) {
-            return Result.failure("传入的任务主键为空");
-        }
+    public Result notFinish(
+            @RequestParam("taskId") @NotNull(message = "传入的任务主键不能为空") Long taskId
+    ) {
         List<User> users = taskService.getNotFinishUser(taskId);
         return Result.success(users, "获取已完成任务用户成功");
     }
@@ -83,14 +85,12 @@ public class TaskController {
     @PutMapping("/repulse")
     @ApiImplicitParams(@ApiImplicitParam(name = "taskIds", value = "任务主键id集合", required = true))
     @ApiOperation("打回任务")
-    public Result repulse(@RequestParam("taskId") List<Long> taskIds) {
-        if (taskIds == null) {
-            return Result.failure("传入的任务主键为空");
-        }
+    public Result repulse(
+            @RequestParam("taskId") @NotEmpty(message = "传入的任务主键不能为空") List<Long> taskIds
+    ) {
         if (!taskService.repulse(taskIds)) {
             return Result.failure("打回失败，请重新提交");
         }
-
         return Result.success(null, "打回成功");
     }
 
