@@ -8,7 +8,9 @@ import com.example.annotation.Gender;
 import com.example.annotation.Position;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.models.auth.In;
 import lombok.Data;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Email;
@@ -42,7 +44,8 @@ public class Admin {
     private String adminSex;
 
     @ApiModelProperty("在职状态，0离职，1在职")
-    private String adminStatus;
+    @Range(max = 1, min = 0)
+    private Integer adminStatus;
 
     @ApiModelProperty("创建时间")
     @TableField(fill = FieldFill.INSERT)
