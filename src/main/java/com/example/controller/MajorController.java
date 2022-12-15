@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/majors")
@@ -25,7 +24,7 @@ public class MajorController {
     @PostMapping("/save")
     @ApiOperation("添加专业以及专业负责人")
     @ApiParam(name = "majorDto", value = "专业与专业负责人信息", required = true)
-    public Result save(@RequestBody @Valid MajorDto majorDto) {
+    public Result save(@RequestBody MajorDto majorDto) {
         Boolean majorAndUser = majorService.addMajorAndUser(majorDto);
         if (!majorAndUser) {
             return Result.failure("添加专业以及专业负责人失败");

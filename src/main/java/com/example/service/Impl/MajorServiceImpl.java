@@ -43,6 +43,7 @@ public class MajorServiceImpl extends ServiceImpl<MajorMapper, Major> implements
             throw new BusinessException(new DuplicateMajorNameException("专业名称已存在，请勿重复添加"),500);
         }
 
+        log.info("66666");
         List<String> positions = majorDto.getUserPosition();
 
         if (Objects.equals(positions.get(0), positions.get(1))) {
