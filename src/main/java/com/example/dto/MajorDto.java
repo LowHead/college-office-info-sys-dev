@@ -5,6 +5,7 @@ import com.example.annotation.Position;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Email;
 import java.io.Serializable;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Data
 @ApiModel
+@Validated
 public class MajorDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -20,15 +22,18 @@ public class MajorDto implements Serializable {
     private String majorName;
 
     @ApiModelProperty("用户姓名")
-    private List<String> username;
+    private String username;
 
     @ApiModelProperty("用户职位")
-    private List<String> userPosition;
+    @Position
+    private String userPosition;
 
     @ApiModelProperty("邮箱地址")
-    private List<String> userMail;
+    @Email
+    private String userMail;
 
     @ApiModelProperty("性别")
-    private List<String> userSex;
+    @Gender
+    private String userSex;
 
 }
