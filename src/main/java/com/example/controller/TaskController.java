@@ -60,7 +60,7 @@ public class TaskController {
 
     @GetMapping("/finish")
     @ApiImplicitParams(@ApiImplicitParam(name = "taskId", value = "任务主键id", required = true))
-    @ApiOperation("获取已完成任务")
+    @ApiOperation("获取已完成任务用户")
     public Result finish(@RequestParam("taskId") Long taskId) {
         if (taskId == null) {
             return Result.failure("传入的任务主键为空");
@@ -71,7 +71,7 @@ public class TaskController {
 
     @GetMapping("/notFinish")
     @ApiImplicitParams(@ApiImplicitParam(name = "taskId", value = "任务主键id", required = true))
-    @ApiOperation("获取未完成任务")
+    @ApiOperation("获取未完成任务用户")
     public Result notFinish(@RequestParam("taskId") Long taskId) {
         if (taskId == null) {
             return Result.failure("传入的任务主键为空");

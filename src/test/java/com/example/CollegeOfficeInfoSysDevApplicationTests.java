@@ -52,14 +52,5 @@ class CollegeOfficeInfoSysDevApplicationTests {
         timer.schedule(sc,date);
     }
 
-    @Test
-    void testMajorAndUser() {
-        MajorDto majorDto = new MajorDto();
-        majorDto.setMajorName("智能科学");
-        majorDto.setUsername("刘李庚");
-        majorDto.setUserPosition("教研室主任");
-        majorDto.setUserMail("2121289671@qq.com");
-        majorDto.setUserSex("男");
-        majorService.addMajorAndUser(majorDto);
-    }
+
 }

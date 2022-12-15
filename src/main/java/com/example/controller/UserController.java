@@ -64,6 +64,7 @@ public class UserController {
      * @return
      */
     @GetMapping("/logout")
+    @ApiOperation("用户登出")
     public Result logout(){
         return userService.logout();
     }
