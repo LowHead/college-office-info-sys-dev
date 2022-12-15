@@ -1,4 +1,5 @@
-package com.example.domain;
+package com.example.dto;
+
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -9,30 +10,22 @@ import com.example.annotation.Position;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.springframework.validation.annotation.Validated;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
 @ApiModel
-@Validated
-public class User implements Serializable {
-
+public class UserDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("用户主键id")
-    @TableId(type = IdType.ASSIGN_ID)
-    private Long userId;
-
     @ApiModelProperty("用户姓名")
-    @NotBlank
     private String username;
 
     @ApiModelProperty("用户密码")
-    @NotBlank
     private String password;
 
     @ApiModelProperty("用户专业类别")
@@ -50,20 +43,7 @@ public class User implements Serializable {
     @Gender
     private String userSex;
 
-    @ApiModelProperty("在职状态，0离职，1在职")
-    private String userStatus;
-
-    @ApiModelProperty("创建时间")
-    @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
-
-    @ApiModelProperty("修改时间")
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
-
-    @ApiModelProperty("修改人主键id")
-    private Long updatePerson;
-
-    @ApiModelProperty("最新登录时间")
-    private LocalDateTime loginTime;
+    @ApiModelProperty("验证码")
+    @Length(max = 5)
+    private String code;
 }

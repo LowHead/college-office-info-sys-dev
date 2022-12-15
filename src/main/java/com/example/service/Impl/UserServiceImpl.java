@@ -1,21 +1,21 @@
 package com.example.service.Impl;
 import cn.dev33.satoken.stp.StpInterface;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.common.Result;
 import com.example.common.SystemException;
 import com.example.domain.User;
-import com.example.domain.UserRole;
+import com.example.dto.UserDto;
 import com.example.mapper.UserMapper;
-import com.example.mapper.UserRoleMapper;
 import com.example.service.UserService;
 import com.example.util.CodeUtils;
 import com.example.util.MD5Utils;
 import com.example.util.RegularCheckUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +24,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
 
     @Autowired
     UserMapper userMapper;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     /**
      * 用户登录实现
@@ -54,25 +57,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         return new Result(CodeUtils.success,user,"登陆成功！");
     }
 
+
     /**
      * 用户注册实现
-     * @param user
+     * @param userDto
      * @return
      */
     @Override
-    public Result register(User user) {
+    public Result register(UserDto userDto) {
+        User user = new User();
+        BeanUtil.copyProperties(userDto, user, "code");
+
         User s = userMapper.selectOne(new QueryWrapper<User>().eq("username",user.getUsername()));
-        if (user == null){
-            return new Result(CodeUtils.failure,null,"禁止传递空对象！");
+        if (s == null){
+            return new Result(CodeUtils.failure,user,"用户已存在！");
         }
-        if (s != null){
-            return new Result(CodeUtils.failure,null,"用户名已存在！");
-        }
-        if (!RegularCheckUtils.isValidEmail(user.getUserMail())){
-            return new Result(CodeUtils.failure,null,"邮箱格式错误！");
-        }
-        if (user.getPassword() == null){
-            return new Result(CodeUtils.failure,null,"密码不可为空！");
+        String code = stringRedisTemplate.opsForValue().get("code");
+        if (!code.equals(userDto.getCode())){
+            return new Result(CodeUtils.failure,user,"验证码错误！");
         }
         user.setPassword(MD5Utils.code(user.getPassword()));
         userMapper.insert(user);

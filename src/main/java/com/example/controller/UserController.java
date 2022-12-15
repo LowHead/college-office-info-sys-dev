@@ -3,17 +3,22 @@ package com.example.controller;
 import com.example.common.Result;
 import com.example.common.SystemException;
 import com.example.domain.User;
+import com.example.dto.UserDto;
 import com.example.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/users")
 @Api(tags = "用户接口")
+@Validated
 public class UserController {
 
     @Autowired
@@ -43,7 +48,7 @@ public class UserController {
      */
     @PostMapping("/register")
     @ApiOperation("用户注册接口")
-    public Result register(@RequestBody User user){
+    public Result register(@RequestBody @Valid UserDto user){
         return userService.register(user);
     }
 

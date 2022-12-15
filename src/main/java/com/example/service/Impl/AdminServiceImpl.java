@@ -1,15 +1,18 @@
 package com.example.service.Impl;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.common.Result;
 import com.example.domain.Admin;
+import com.example.dto.AdminDto;
 import com.example.mapper.AdminMapper;
 import com.example.service.AdminService;
 import com.example.util.CodeUtils;
 import com.example.util.MD5Utils;
 import com.example.util.RegularCheckUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -18,6 +21,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     AdminMapper adminMapper;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     /**
      * 管理员登录
@@ -47,23 +53,23 @@ public class AdminServiceImpl implements AdminService {
 
     /**
      * 管理员注册
-     * @param admin
+     * @param adminDto
      * @return
      */
     @Override
-    public Result register(Admin admin) {
+    public Result register(AdminDto adminDto) {
+        Admin admin = new Admin();
+        BeanUtil.copyProperties(adminDto, admin, "code");
         Admin s = adminMapper.selectOne(new QueryWrapper<Admin>().eq("username",admin.getUsername()));
+        String code = stringRedisTemplate.opsForValue().get("code");
         if (admin == null){
             return new Result(CodeUtils.failure,null,"禁止传递空对象！");
         }
         if (s != null){
             return new Result(CodeUtils.failure,null,"用户名已存在！");
         }
-        if (!RegularCheckUtils.isValidEmail(admin.getAdminMail())){
-            return new Result(CodeUtils.failure,null,"邮箱格式错误！");
-        }
-        if (admin.getPassword() == null){
-            return new Result(CodeUtils.failure,null,"密码不可为空！");
+        if (!adminDto.getCode().equals(code)){
+            return new Result(CodeUtils.failure,null,"验证码错误！");
         }
         admin.setPassword(MD5Utils.code(admin.getPassword()));
         adminMapper.insert(admin);

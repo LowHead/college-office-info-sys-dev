@@ -3,6 +3,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.common.Result;
 import com.example.common.SystemException;
 import com.example.domain.User;
+import com.example.dto.UserDto;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public interface UserService extends IService<User> {
      * User对象
      * @return
      */
-    Result register(User user);
+    Result register(UserDto user);
 
 
     /**

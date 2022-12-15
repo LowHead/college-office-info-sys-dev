@@ -3,14 +3,19 @@ package com.example.controller;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import com.example.common.Result;
 import com.example.domain.Admin;
+import com.example.dto.AdminDto;
 import com.example.service.AdminService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/admin")
 @Api(tags ="管理员接口")
+@Validated
 public class AdminController {
 
     @Autowired
@@ -40,7 +45,7 @@ public class AdminController {
     @PostMapping("/register")
     @ApiParam(name = "admin", value = "管理员相关信息", required = true)
     @ApiOperation("注册")
-    public Result register(@RequestBody Admin admin){
+    public Result register(@RequestBody @Valid AdminDto admin){
         return adminService.register(admin);
     }
 

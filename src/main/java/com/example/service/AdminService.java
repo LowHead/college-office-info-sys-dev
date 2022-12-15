@@ -3,6 +3,7 @@ package com.example.service;
 import com.example.common.Result;
 import com.example.common.SystemException;
 import com.example.domain.Admin;
+import com.example.dto.AdminDto;
 
 public interface AdminService {
     /**
@@ -18,7 +19,7 @@ public interface AdminService {
      * User对象
      * @return
      */
-    Result register(Admin admin);
+    Result register(AdminDto adminDto);
 
 
     /**
