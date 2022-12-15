@@ -1,9 +1,12 @@
 package com.example.dto;
 
+import com.example.annotation.Gender;
+import com.example.annotation.Position;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.Email;
 import java.io.Serializable;
 import java.util.List;
 
