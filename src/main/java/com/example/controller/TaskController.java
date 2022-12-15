@@ -87,10 +87,10 @@ public class TaskController {
         if (taskIds == null) {
             return Result.failure("传入的任务主键为空");
         }
-        boolean ok = taskUserService.repulse(taskIds);
-        if (!ok) {
+        if (!taskService.repulse(taskIds)) {
             return Result.failure("打回失败，请重新提交");
         }
+
         return Result.success(null, "打回成功");
     }
 

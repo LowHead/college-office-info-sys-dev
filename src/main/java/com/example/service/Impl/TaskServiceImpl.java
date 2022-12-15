@@ -5,6 +5,8 @@ import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.common.Result;
 import com.example.domain.*;
@@ -68,6 +70,26 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
             users.add(user);
         }
         return users;
+    }
+
+    @Override
+    public boolean repulse(List<Long> taskIds) {
+
+        LambdaUpdateWrapper<TaskUser> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        lambdaUpdateWrapper.in(TaskUser::getTaskId,taskIds).set(TaskUser::getState,2);
+        if (!taskUserService.update(lambdaUpdateWrapper)) {
+            return false;
+        }
+
+        List<TaskUser> taskUsers = taskUserService.listByIds(taskIds);
+        for (TaskUser taskUser : taskUsers) {
+            User user = userService.getById(taskUser.getUserId());
+            Task task = getById(taskUser.getTaskId());
+            String subject = "任务打回通知";
+            String text = "您好，您的任务" + task.getTaskTitle() + "审批失败，以被重新打回，请重新提交!";
+            mailSenderService.sendEmail(user.getUserMail(),subject,text);
+        }
+        return true;
     }
 
     @Override

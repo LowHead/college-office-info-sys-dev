@@ -1,8 +1,10 @@
 package com.example.service;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.common.Result;
 import com.example.domain.Task;
+import com.example.domain.TaskUser;
 import com.example.domain.User;
 import com.example.dto.TaskDto;
 
@@ -54,4 +56,11 @@ public interface TaskService extends IService<Task> {
      * @return 用户集合
      */
     List<User> getNotFinishUser(Long taskId);
+
+    /**
+     * 批量打回任务
+     * @param taskIds 任务主键id集合
+     * @return 是否成功
+     */
+    boolean repulse(List<Long> taskIds);
 }
